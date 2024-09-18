@@ -1,6 +1,33 @@
-<div class="main-view">
-    <div id="calendar">
+<section class="calendar">
+    <div class="calendar_header">
+        <!--<div>メニューバー開けるマーク入れる</div>-->
+        <p class="header_menu">
+            <% if @calendar.calendar_name != nil %>
+             <%= @calendar.calendar_name %>のカレンダー
+            <% else %>
+             <%= @current_user.username %>のカレンダー
+            <% end %>
+        </p>
+        <div id="date-picker">
+            <button id="prev-month-button">前月</button>
+            <span id="current-date">2024/9(月日を取得)</span>
+            <button id="next-month-button">翌月</button>
+        </div>
+        <p>カレンダーID：<%= @calendar.id %></p>
+        <img src="/<%= @current_user.user_img %>" width="100" height="100" >
+    </div>
+    <div class="create-tasks">
+        <a href="/calendar/:calendar_id/task/new">予定の作成</a>
+    </div>
+    <div class="calendar-display">
+        <select>
+            <option value="month">月</option>
+            <option value="week">週</option>
+            <option value="day">日</option>
+        </select>
+    </div>
+    <div id="calendar_body">
     
     </div>
     <script src="../js/main.js"></script>
-</div>
+</section>

@@ -35,4 +35,4 @@ for (let n = 0; n < 6; n++){
 }
 createHtml += '</table>'
 
-document.querySelector('#calendar').innerHTML = createHtml;
+document.querySelector('#calendar_body').innerHTML = createHtml;
