@@ -7,32 +7,37 @@ const lastDate = new Date(year, month, 0);
 const lastDayCount = lastDate.getDate();
 
 let dayCount = 1;
-let createHtml = "";
+let createYearMonthHtml = '<h1 class="year-month">' + year + '/' + month + '</h1>'
+let createCalendarHtml = "";
 
-createHtml = '<h1 class="year-month">' + year + '/' + month + '</h1>'
-createHtml += '<table class="calendar-table">' + '<tr>';
+createCalendarHtml = '<table class="calendar-table">' + '<tr>';
 
 const weeks = ['日', '月', '火', '水', '木', '金', '土']
 for (let i = 0; i < weeks.length; i++) {
-    createHtml += '<td class="days">' + weeks[i] + '</td>';
+    createCalendarHtml += '<td class="days">' + weeks[i] + '</td>';
 }
-createHtml += '</tr>';
+createCalendarHtml += '</tr>';
 
-for (let n = 0; n < 6; n++){
-    createHtml += '<tr>';
+// ５週分繰り返す
+for (let n = 0; n < 5; n++){
+    createCalendarHtml += '<tr>';
     for (let d = 0; d < 7; d++){
+        // 先月、来月の日付を表示しない（後々する）
         if (n == 0 && d < firstDay){
-            createHtml += '<td></td>';
+            createCalendarHtml += '<td></td>';
         } else if (dayCount > lastDayCount){
-            createHtml += '<td></td>';
+            createCalendarHtml += '<td></td>';
         } else {
-            createHtml += '<td>' + dayCount + '</td>';
+            createCalendarHtml += '<td>' + dayCount + '</td>';
             dayCount++;
         }
     }
 
-    createHtml += '</tr>';
+    createCalendarHtml += '</tr>';
 }
-createHtml += '</table>'
+createCalendarHtml += '</table>';
 
-document.querySelector('#calendar_body').innerHTML = createHtml;
+
+// HTMLをerbファイルの指定したidのところへ実行する
+document.getElementById('year-month').innerHTML = createYearMonthHtml;
+document.getElementById('calendar_body').innerHTML = createCalendarHtml;
