@@ -1,0 +1,17 @@
+<div class="unauthed-card">
+    <h1>Smart Calendar</h1>
+    <form action="/signup" method="POST" enctype="multipart/form-data">
+        <input type="text" name="username" placeholder="username">
+        <input type="password" name="password" placeholder="password">
+        <input type="password" name="password_confirmation" placeholder="password_confirmation">
+        <input type="file" name="file">
+        <select name="area_id">
+            <option value="">Select your area</option>
+            <% @areas.each do |area| %>
+                <option value="<%= area.id %>"><%= area.area_name %></option>
+            <% end %>
+        </select>
+        <button type="submit">Sign up</button>
+    </form> 
+    <p>すでにアカウントを持っている場合は<a href="/login">こちら</a></p>
+</div>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>Smart Calendar</title>
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
+    <body>
+        <nav class="center-horizontal">
+            <% if logged_in? %>
+                <main id="authed-main">
+                    <section id="calendar">
+                        <%= yield %>
+                    </section>
+                </main>
+            <% else %>
+                <main id="unauthed-main">
+                    <%= yield %>
+                </main>
+            <% end %>
+        </nav>
+    </body>
+</html>
