@@ -37,13 +37,13 @@ function generateCalendar(year, month){
         for (let d = 0; d < 7; d++){
             // 先月、来月の日付を表示しない（後々する）
             if (n == 0 && d < firstDay){
-                createCalendarHtml += '<td>' + (prevLastDayCount - (firstDay - d - 1)) + '</td>';
+                createCalendarHtml += '<td class="prev-month">' + (prevLastDayCount - (firstDay - d - 1)) + '</td>';
             } else if (!isNextMonth && dayCount <= lastDayCount){
-                createCalendarHtml += '<td>' + dayCount + '</td>';
+                createCalendarHtml += '<td class="current-month">' + dayCount + '</td>';
                 dayCount++;
             } else {
                 isNextMonth = true;
-                createCalendarHtml += '<td>' + (dayCount - lastDayCount) + '</td>';
+                createCalendarHtml += '<td class="next-month">' + (dayCount - lastDayCount) + '</td>';
                 dayCount++;
             }
         }

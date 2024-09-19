@@ -93,6 +93,11 @@ post '/login' do
     end
 end
 
+get '/logout' do
+    session[:user] = nil
+    redirect '/login'
+end
+
 get '/calendar/:id' do
     @current_user = current_user
     @calendar = Calendar.find(params[:id])
