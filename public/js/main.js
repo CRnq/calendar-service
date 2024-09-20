@@ -1,3 +1,5 @@
+// カレンダーの表示
+
 const date = new Date();
 const year = date.getFullYear();
 const month = date.getMonth() + 1
@@ -24,9 +26,15 @@ function generateCalendar(year, month){
     createCalendarHtml = '<table class="calendar-table">' + '<tr>';
     
     const weeks = ['日', '月', '火', '水', '木', '金', '土']
-    for (let i = 0; i < weeks.length; i++) {
-        createCalendarHtml += '<td class="days">' + weeks[i] + '</td>';
+    
+    createCalendarHtml += '<td class="Sunday">' + weeks[0] + '</td>';
+    
+    for (let i = 1; i < weeks.length-1; i++) {
+        createCalendarHtml += '<td class="weekday">' + weeks[i] + '</td>';
     }
+    
+    createCalendarHtml += '<td class="Saturday">' + weeks[6] + '</td>';
+    
     createCalendarHtml += '</tr>';
     
     let isNextMonth = false;
@@ -35,7 +43,7 @@ function generateCalendar(year, month){
     for (let n = 0; n < 5; n++){
         createCalendarHtml += '<tr>';
         for (let d = 0; d < 7; d++){
-            // 先月、来月の日付を表示しない（後々する）
+            // 先月、来月の日付を表示
             if (n == 0 && d < firstDay){
                 createCalendarHtml += '<td class="prev-month">' + (prevLastDayCount - (firstDay - d - 1)) + '</td>';
             } else if (!isNextMonth && dayCount <= lastDayCount){
@@ -78,3 +86,18 @@ nextMonthButton.addEventListener('click', function(){
     }
     generateCalendar(currentYear, currentMonth);
 });
+
+
+// ハンバーガーメニュー
+
+let nav = document.getElementById('calendar_menu')
+let btn = document.querySelector('.toggle-btn')
+let mask = document.getElementById('mask')
+
+btn.onclick = () => {
+    nav.classList.toggle('open');
+}
+
+mask.onclick = () =>{
+    nav.classList.toggle('open');
+}

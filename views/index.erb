@@ -1,6 +1,30 @@
 <section class="calendar">
+    <div id="calendar_menu">
+        <nav>
+            <div class="inner">
+                <ul>
+                    <li><a href="#">
+                        <% if @calendar.calendar_name != nil %>
+                            <%= @calendar.calendar_name %>のカレンダー
+                        <% else %>
+                            <%= @current_user.username %>のカレンダー
+                        <% end %></a></li>
+                    <li><a href="#">カレンダー</a></li>
+                    <li><a href="#">カレンダー</a></li>
+                    <li><a href="#">カレンダー</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="toggle-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <div id="mask"></div>
+    </div>
     <div class="calendar_header">
-        <h3 class="calendar_menu">メニュー</h3>
         <p class="calendar_name">
             <% if @calendar.calendar_name != nil %>
              <%= @calendar.calendar_name %>のカレンダー
@@ -9,32 +33,38 @@
             <% end %>
         </p>
         <div id="date-picker">
-            <button id="prev-month-button">前月</button>
+            <button id="prev-month-button">
+                <span></span>
+                <span></span>
+            </button>
             <span id="year-month"></span>
-            <button id="next-month-button">翌月</button>
+            <button id="next-month-button">
+                <span></span>
+                <span></span>
+            </button>
         </div>
-        <p>カレンダーID：<%= @calendar.id %></p>
-        <img src="/<%= @current_user.user_img %>" width="100" height="100" >
-        <a href="/logout">ログアウト</a>
+        <div class="calendar_info">
+            <p>カレンダーID：<%= @calendar.id %></p>
+            <img src="/<%= @current_user.user_img %>" width="40" height="40" >
+            <!--<a href="/logout">ログアウト</a>-->
+        </div>
     </div>
-    <div class="create-tasks">
-        <a href="/calendar/:calendar_id/task/new">予定の作成</a>
-    </div>
-    <div class="calendar-display">
-        <select>
-            <option value="month">月</option>
-            <option value="week">週</option>
-            <option value="day">日</option>
-        </select>
-    </div>
-    <div id="calendar_body">
-    
+    <div class="calendar-main">
+        <div class="calendar-main-contents">
+            <div class="create-btn">
+                <a href="/calendar/:calendar_id/task/new">予定の作成</a>
+            </div>
+            <div class="calendar-display">
+                <select>
+                    <option value="month">月</option>
+                    <option value="week">週</option>
+                    <option value="day">日</option>
+                </select>
+            </div>
+        </div>
+        <div id="calendar_body">
+        
+        </div>
     </div>
     <script src="../js/main.js"></script>
 </section>
-
-
-
-<!--次の俺へ、Todo -->
-<!--・ユーザーアイコンデカすぎ-->
-<!--・月の移動できるようにする-->
