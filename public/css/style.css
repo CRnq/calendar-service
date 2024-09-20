@@ -89,6 +89,8 @@ label p{
 
 
 /* index.erb */
+
+/*ハンバーガーメニュー部分*/
 #calendar_menu, .calendar_header{
     background-color: #E4CCFF;
 }
@@ -208,6 +210,8 @@ nav .inner ul li a:hover{
 }
 
 
+/*ヘッダー部分*/
+
 .calendar_header {
     height: 90px;
     display: flex;
@@ -302,6 +306,12 @@ nav .inner ul li a:hover{
     justify-content: space-between;
 }
 
+/*　ボディ部分　*/
+
+#event-modal-open{
+    cursor: pointer;
+}
+
 .create-btn{
     display: flex;
     padding: 20px 0;
@@ -312,10 +322,101 @@ nav .inner ul li a:hover{
     align-items: center;
 }
 
-.create-btn a{
+.create-btn p{
     text-align: center;
     text-decoration: none;
     color: #ffffff;
+}
+
+#modal-bg.active{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#modal-bg {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    pointer-events: none;
+}
+
+#event-modal-container.active{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#event-modal-container{
+    position: absolute;
+    top: 160px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    width: 25%;
+    padding: 60px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#event-modal-close{
+    padding: 10px;
+    font-size: 20px;
+}
+
+.date-time-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.date-time-picker .task-name{
+    border: none;
+    border-bottom: 1px solid #000;
+}
+
+.date-time-picker label {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.date-time-picker input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.date-time-picker input[type="date"],
+.date-time-picker input[type="time"] {
+    cursor: pointer;
+}
+
+.date-time-picker input:focus {
+    border-color: #4285f4; /* Googleカレンダーの青色 */
+    box-shadow: 0 0 5px rgba(66, 133, 244, 0.5);
+    outline: none;
+}
+
+#color-palette {
+  display: flex;
+  gap: 10px;
+}
+
+.color-box {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.color-box.selected {
+  border: 2px solid #000;
 }
 
 .calendar-display{
@@ -329,7 +430,11 @@ nav .inner ul li a:hover{
     border-radius: 20px;
     font-size: 16px;
     text-align: center;
+    cursor: pointer;
 }
+
+
+/*カレンダー*/
 
 table{
     width: 100%;

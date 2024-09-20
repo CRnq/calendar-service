@@ -23,9 +23,11 @@ end
 
 class Task < ActiveRecord::Base
     belongs_to :calendar
+    belongs_to :tagcolor, foreign_key: 'tag_color_id'
 end
 
 class Tagcolor < ActiveRecord::Base
+    has_many :tasks
 end
 
 class Area < ActiveRecord::Base

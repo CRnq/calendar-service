@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_09_18_002204) do
+ActiveRecord::Schema.define(version: 2024_09_20_162314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2024_09_18_002204) do
   end
 
   create_table "Tagcolors", force: :cascade do |t|
-    t.string "color_cord"
+    t.string "color_code"
     t.string "color_name"
   end
 
@@ -41,10 +41,11 @@ ActiveRecord::Schema.define(version: 2024_09_18_002204) do
 
   create_table "tasks", force: :cascade do |t|
     t.integer "calendar_id"
-    t.datetime "start"
-    t.datetime "end"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.integer "tag_color_id"
     t.integer "area_id"
+    t.string "task_name"
   end
 
   create_table "user_calendars", force: :cascade do |t|

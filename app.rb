@@ -101,6 +101,7 @@ end
 get '/calendar/:id' do
     @current_user = current_user
     @calendar = Calendar.find(params[:id])
+    @colors = Tagcolor.all
     erb :index
 end
 
@@ -147,4 +148,26 @@ post '/calendar/:id/delete' do
     calendar = Calendar.find_by(id: params[:caledar_id])
     calendar.destroy
     # redirect "/"ユーザーの個人カレンダーにリダイレクト
+end
+
+post '/calendar/:id/task/new' do
+    calendar = Calendar.find(params[:id])
+    
+    start_datetime = DateTime.parse("#{params[:'start-date']} #{params[:'start-time']}")
+    end_datetime = DateTime.parse("#{params[:'end-date']} #{params[:'end-time']}")
+    
+    task = Task.create(
+        task_name: params[:task_name],
+        calendar_id: calendar.id,
+        start_time: start_datetime,
+        end_time: end_datetime,
+        tag_color_id: params[:tag_color_id]
+        # area_id: params[:area_id]
+        )
+        
+    if task.save
+        redirect "/calendar/#{calendar.id}"
+    else
+        redirect "/calendar/#{calendar.id}/task/new"
+    end
 end

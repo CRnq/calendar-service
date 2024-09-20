@@ -51,9 +51,38 @@
     </div>
     <div class="calendar-main">
         <div class="calendar-main-contents">
-            <div class="create-btn">
-                <a href="/calendar/:calendar_id/task/new">予定の作成</a>
+            <div id="event-modal-open">
+                <div class="create-btn">
+                    <p>予定の作成</p>
+                </div>
             </div>
+            
+            <div id="modal-bg" class=></div>
+            
+            <div id="event-modal-container">
+                <form class="date-time-picker" action="/calendar/<%= @calendar.id %>/task/new" method="POST">
+                    <input class="task-name" type="text" name="task_name" placeholder="event name">
+                    <label for="start-date">開始:</label>
+                    <input type="date" id="start-date" name="start-date">
+                    <input type="time" id="start-time" name="start-time" step="900">
+                      
+                    <label for="end-date">終了:</label>
+                    <input type="date" id="end-date" name="end-date">
+                    <input type="time" id="end-time" name="end-time" step="900">
+                    
+                    <div>
+                        <p>タグ</p>
+                        <select name="tag_color_id" id="tag_color_id">
+                            <% @colors.each do |color| %>
+                              <option value="<%= color.id %>"><%= color.color_name %> (<%= color.color_code %>)</option>
+                            <% end %>
+                        </select>
+                    </div>
+                    <button tyoe="submit">追加</button>
+                </form>
+                <div id="event-modal-close">閉じる</div>
+            </div>
+            
             <div class="calendar-display">
                 <select>
                     <option value="month">月</option>

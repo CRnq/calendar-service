@@ -101,3 +101,48 @@ btn.onclick = () => {
 mask.onclick = () =>{
     nav.classList.toggle('open');
 }
+
+
+// 予定作成のモーダルウィンドウ
+
+const open = document.getElementById('event-modal-open')
+const container = document.getElementById('event-modal-container')
+const modalBg = document.getElementById('modal-bg')
+const close = document.getElementById('event-modal-close')
+
+open.addEventListener('click', () => {
+    container.classList.add('active');
+    modalBg.classList.add('active');
+});
+
+close.addEventListener('click', () => {
+    container.classList.remove('active');
+    modalBg.classList.remove('active');
+});
+
+modalBg.addEventListener('click', () => {
+    container.classList.remove('active');
+    modalBg.classList.remove('active');
+});
+
+
+// 選択したタグの色の表示
+document.addEventListener("DOMContentLoaded", function() {
+  const colorBoxes = document.querySelectorAll(".color-box");
+  const selectedColorInput = document.getElementById("selected-color");
+
+  colorBoxes.forEach(box => {
+    box.addEventListener("click", function() {
+      // 選択された色のボーダーを更新
+      colorBoxes.forEach(box => box.classList.remove("selected"));
+      this.classList.add("selected");
+
+      // 選択された色をhidden inputに設定
+      selectedColorInput.value = this.dataset.color;
+      console.log("選択された色:", this.dataset.color);
+    });
+  });
+});
+
+
+
