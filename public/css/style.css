@@ -364,5 +364,6 @@ th, td{
 
 .prev-month, .current-month, .next-month{
     text-align: left;
+    vertical-align: top;
 }
 
