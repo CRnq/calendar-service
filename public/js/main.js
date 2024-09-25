@@ -23,47 +23,62 @@ function generateCalendar(year, month){
     let createYearMonthHtml = '<h1 class="year-month">' + year + '/' + month + '</h1>'
     let createCalendarHtml = "";
     
-    createCalendarHtml = '<table class="calendar-table">' + '<tr>';
-    
     const weeks = ['日', '月', '火', '水', '木', '金', '土']
     
-    createCalendarHtml += '<td class="Sunday">' + weeks[0] + '</td>';
+    createCalendarHtml += '<div class="Sunday">' + weeks[0] + '</div>';
     
     for (let i = 1; i < weeks.length-1; i++) {
-        createCalendarHtml += '<td class="weekday">' + weeks[i] + '</td>';
+        createCalendarHtml += '<div class="weekday">' + weeks[i] + '</div>';
     }
     
-    createCalendarHtml += '<td class="Saturday">' + weeks[6] + '</td>';
+    createCalendarHtml += '<div class="Saturday">' + weeks[6] + '</div>';
     
-    createCalendarHtml += '</tr>';
-    
+    // 月の終わりにフラグを立てる
     let isNextMonth = false;
     
     // ５週分繰り返す
     for (let n = 0; n < 5; n++){
-        createCalendarHtml += '<tr>';
         for (let d = 0; d < 7; d++){
             // 先月、来月の日付を表示
             if (n == 0 && d < firstDay){
-                createCalendarHtml += '<td class="prev-month">' + (prevLastDayCount - (firstDay - d - 1)) + '</td>';
+                createCalendarHtml += '<div class="prev-month-day">' + (prevLastDayCount - (firstDay - d - 1)) + '</div>';
             } else if (!isNextMonth && dayCount <= lastDayCount){
-                createCalendarHtml += '<td class="current-month">' + dayCount + '</td>';
+                createCalendarHtml += '<div class="current-month-day">' + dayCount + '</div>';
                 dayCount++;
             } else {
                 isNextMonth = true;
-                createCalendarHtml += '<td class="next-month">' + (dayCount - lastDayCount) + '</td>';
+                createCalendarHtml += '<div class="next-month-day">' + (dayCount - lastDayCount) + '</div>';
                 dayCount++;
             }
         }
-    
-        createCalendarHtml += '</tr>';
     }
-    createCalendarHtml += '</table>';
+    
+    // イベントの追加
+    createCalendarHtml += '<div class="calendar__event calendar__event--done" style="grid-column: 2 / 5; grid-row: 2; margin-top: 2rem;">Metting</div>'
     
     // HTMLをerbファイルの指定したidのところへ実行する
     document.getElementById('year-month').innerHTML = createYearMonthHtml;
     document.getElementById('calendar_body').innerHTML = createCalendarHtml;
 }
+
+// タスクの追加
+tasks.forEach(task => {
+  const startDate = new Date(task.start_time);
+  const endDate = new Date(task.end_time);
+  
+  // イベントの日付に応じてgridの行と列を計算
+  const startDay = startDate.getDate();
+  const endDay = endDate.getDate();
+  
+  const gridRowStart = Math.floor((startDay - 1) / 7) + 2; // 日に基づいて計算
+  const gridColumnStart = (startDate.getDay() + 1); // 曜日に基づいて計算
+  const gridColumnEnd = (endDate.getDay() + 2);
+
+  // イベントを配置
+  const eventHtml = `<div class="calendar__event" style="grid-column: ${gridColumnStart} / ${gridColumnEnd}; grid-row: ${gridRowStart};">${task.task_name}</div>`;
+    
+  document.getElementById('calendar_body').insertAdjacentHTML('beforeend', eventHtml);
+});
 
 // 初期状態では今月を表示
 generateCalendar(currentYear, currentMonth);
@@ -126,23 +141,23 @@ modalBg.addEventListener('click', () => {
 });
 
 
-// 選択したタグの色の表示
-document.addEventListener("DOMContentLoaded", function() {
-  const colorBoxes = document.querySelectorAll(".color-box");
-  const selectedColorInput = document.getElementById("selected-color");
+//　予定編集のモーダルウィンドウ
 
-  colorBoxes.forEach(box => {
-    box.addEventListener("click", function() {
-      // 選択された色のボーダーを更新
-      colorBoxes.forEach(box => box.classList.remove("selected"));
-      this.classList.add("selected");
+const open_edit = document.getElementById('edit-modal-container')
+const container_edit = document.getElementById('edit-modal-container')
+const close_edit = document.getElementById('edit-modal-close')
 
-      // 選択された色をhidden inputに設定
-      selectedColorInput.value = this.dataset.color;
-      console.log("選択された色:", this.dataset.color);
-    });
-  });
+open_edit.addEventListener('click', () => {
+    container_edit.classList.add('active');
+    modalBg.calssList.add('active');
 });
 
+close_edit.addEventListener('click', () => {
+    container_edit.classList.remove('active');
+    modalBg.classList.remove('active');
+});
 
-
+modalBg.addEventListener('click', () => {
+    container_edit.classList.remove('active');
+    modalBg.classList.remove('active');
+});

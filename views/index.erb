@@ -91,9 +91,57 @@
                 </select>
             </div>
         </div>
-        <div id="calendar_body">
         
+        <div id="calendar_body" class="calendar-body">
+            <!--main.jsにてカレンダーを作成-->
+            
+            
         </div>
+        
+        
+        <!--とりあえずここに表示しているがカレンダーの日付の枠に表示したい-->
+        <% @tasks.each do |task| %>
+            <% if @calendar.id == task.calendar_id %>
+                <div class="task" id="edit-modal-open">
+                    <p>予定名：<%= task.task_name %></p>
+                    <p>開始時間：<%= task.start_time %></p>
+                    <p>終了時間：<%= task.end_time %></p>
+                    <p>タグカラー：<%= task.tag_color_id %></p>
+                </div>
+            <% end %>
+        <% end %>
+        
+        <!--モーダル表示する編集画面-->
+        <!--<div id="edit-modal-container">-->
+        <!--    <form class="date-time-picker" action="/calendar/<%# @calendar.id %>/task/<%# @task.id %>/edit" method="POST">-->
+        <!--        <input class="task-name" type="text" name="task_name" value="<%# @task.task_name %>">-->
+        <!--        <label for="start-date">開始:</label>-->
+        <!--        <input type="date" id="start-date" name="start-date" value="<%# @task.start_time.strftime('%Y-%m-%d') %>">-->
+        <!--        <input type="time" id="start-time" name="start-time" value="<%# @task.start_time.strftime('%H:%M') %>" step="900">-->
+                  
+        <!--        <label for="end-date">終了:</label>-->
+        <!--        <input type="date" id="end-date" name="end-date" value="<%# @task.end_time.strftime('%Y-%m-%d') %>">-->
+        <!--        <input type="time" id="end-time" name="end-time" value="<%# @task.end_time.strftime('%H:%M') %>" step="900">-->
+                
+        <!--        <div class="color-box">-->
+        <!--            <p>タグ</p>-->
+        <!--            <select name="tag_color_id" id="tag_color_id">-->
+        <!--                <%# @colors.each do |color| %>-->
+        <!--                  <option value="<%# color.id %>"><%# color.color_name %> (<%# color.color_code %>)</option>-->
+        <!--                  <option value="<%# color.id %>" <%# 'selected' if @task.tag_color_id == color.id %>><%# color.color_name %> (<%# color.color_code %>)</option>-->
+        <!--                <%# end %>-->
+        <!--            </select>-->
+        <!--        </div>-->
+        <!--        <button tyoe="submit">保存</button>-->
+        <!--    </form>-->
+        <!--    <div id="edit-modal-close">閉じる</div>-->
+        <!--</div>-->
+        
     </div>
+    
+    <script>
+      const $tasks = <%= @tasks.to_json %>;
+    </script>
+
     <script src="../js/main.js"></script>
 </section>

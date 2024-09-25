@@ -407,18 +407,6 @@ nav .inner ul li a:hover{
   gap: 10px;
 }
 
-.color-box {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid transparent;
-}
-
-.color-box.selected {
-  border: 2px solid #000;
-}
-
 .calendar-display{
     display: flex;
     justify-content: flex-end;
@@ -434,41 +422,161 @@ nav .inner ul li a:hover{
 }
 
 
-/*カレンダー*/
-
-table{
-    width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #000;
-    border-radius: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    background-color: #ffffff;
-    border-collapse:  collapse;
-    overflow: hidden; 
+#edit-modal-open{
+    cursor: pointer;
 }
 
-th, td{
-    height: 80px;
+#edit-modal-container.active{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#edit-modal-container{
+    position: absolute;
+    top: 160px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    width: 25%;
+    padding: 60px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#edit-modal-close{
     padding: 10px;
-    border: 1px solid #000;
+    font-size: 20px;
+}
+
+
+/*カレンダー*/
+
+.calendar-body{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 2rem repeat(5, 5rem);
+    border-left: 1px solid rgb(203, 213, 225);
+    border-top: 1px solid rgb(203, 213, 225);
+    border-right: 1px solid rgb(203, 213, 225);
+    
+    width: 100;
 }
 
 .Sunday, .weekday, .Saturday{
-    height: 45px;
     text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgb(203, 213, 225);
 }
 
 .Sunday{
     background-color: #FFC7C2;
+     border-right: 1px solid rgb(203, 213, 225);
 }
 
 .Saturday{
     background-color: #BEE3FF
 }
 
-.prev-month, .current-month, .next-month{
-    text-align: left;
-    vertical-align: top;
+.weekday {
+     border-right: 1px solid rgb(203, 213, 225);
 }
 
+.prev-month-day, .current-month-day, .next-month-day{
+    display: flex;
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    border-right: 1px solid rgb(203, 213, 225);
+    border-bottom: 1px solid rgb(203, 213, 225);
+}
+
+.prev-month-day:nth-child(7n + 7), 
+.current-month-day:nth-child(7n + 7), 
+.next-month-day:nth-child(7n + 7) {
+    border-right: 0;
+}
+
+.calendar__event {
+    border-radius: 9999px;
+    color: red;
+    height: 1rem;
+    margin: 0.5rem;
+    padding: 0 0.5rem;
+    font-size: 0.7rem;
+
+    display: flex;
+    align-items: center;
+}
+.calendar__event--done {
+    background: rgb(74 222 128);
+}
+
+
+/*カレンダーの各カラムの行列番号設定*/
+
+.prev-month-day:nth-child(7n + 1), 
+.current-month-day:nth-child(7n + 1),
+.next-month-day:nth-child(7n + 1){
+    grid-column: 1;
+}
+
+.prev-month-day:nth-child(7n + 2), 
+.current-month-day:nth-child(7n + 2),
+.next-month-day:nth-child(7n + 2) {
+    grid-column: 2;
+}
+
+.prev-month-day:nth-child(7n + 3), 
+.current-month-day:nth-child(7n + 3),
+.next-month-day:nth-child(7n + 3) {
+    grid-column: 3;
+}
+
+.prev-month-day:nth-child(7n + 4), 
+.current-month-day:nth-child(7n + 4),
+.next-month-day:nth-child(7n + 4) {
+    grid-column: 4;
+}
+
+.prev-month-day:nth-child(7n + 5), 
+.current-month-day:nth-child(7n + 5),
+.next-month-day:nth-child(7n + 5)  {
+    grid-column: 5;
+}
+
+.prev-month-day:nth-child(7n + 6), 
+.current-month-day:nth-child(7n + 6),
+.next-month-day:nth-child(7n + 6)  {
+    grid-column: 6;
+}
+
+.prev-month-day:nth-child(7n + 7), 
+.current-month-day:nth-child(7n + 7),
+.next-month-day:nth-child(7n + 7)  {
+    grid-column: 7;
+}
+
+.prev-month-day:nth-child(n + 8):nth-child(-n + 14),
+.current-month-day:nth-child(n + 8):nth-child(-n + 14){
+    grid-row: 2;
+}
+
+.prev-month-day:nth-child(n + 15):nth-child(-n + 21),
+.current-month-day:nth-child(n + 15):nth-child(-n + 21),
+.next-month-day:nth-child(n + 15):nth-child(-n + 21){
+    grid-row: 3;
+}
+
+.prev-month-day:nth-child(n + 22):nth-child(-n + 28),
+.current-month-day:nth-child(n + 22):nth-child(-n + 28),
+.next-month-day:nth-child(n + 22):nth-child(-n + 28){
+    grid-row: 4;
+}
+
+.prev-month-day:nth-child(n + 29):nth-child(-n + 35),
+.current-month-day:nth-child(n + 29):nth-child(-n + 35),
+.next-month-day:nth-child(n + 29):nth-child(-n + 35){
+    grid-row: 5;
+}

@@ -102,6 +102,8 @@ get '/calendar/:id' do
     @current_user = current_user
     @calendar = Calendar.find(params[:id])
     @colors = Tagcolor.all
+    
+    @tasks = Task.where(calendar_id: @calendar.id)
     erb :index
 end
 
@@ -170,4 +172,19 @@ post '/calendar/:id/task/new' do
     else
         redirect "/calendar/#{calendar.id}/task/new"
     end
+end
+
+
+post '/calendar/:calendar_id/task/:task_id/edit' do
+    calendar = Calendar.find(params[:calendar_id])
+    task = Task.find(params[:task_id])
+    
+    task.update(
+        task_name: params[:task_name],
+        start_time: "#{params[:'start-date']} #{params[:'start-time']}",
+        end_time: "#{params[:'end-date']} #{params[:'end-time']}",
+        tag_color_id: params[:tag_color_id]
+        )
+    
+    redirect "/calendar/#{calendar.id}"
 end
