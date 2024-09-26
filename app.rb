@@ -104,6 +104,7 @@ get '/calendar/:id' do
     @colors = Tagcolor.all
     
     @tasks = Task.where(calendar_id: @calendar.id)
+    
     erb :index
 end
 

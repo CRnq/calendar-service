@@ -64,11 +64,11 @@
                     <input class="task-name" type="text" name="task_name" placeholder="event name">
                     <label for="start-date">開始:</label>
                     <input type="date" id="start-date" name="start-date">
-                    <input type="time" id="start-time" name="start-time" step="900">
+                    <input type="time" id="start-time" name="start-time" >
                       
                     <label for="end-date">終了:</label>
                     <input type="date" id="end-date" name="end-date">
-                    <input type="time" id="end-time" name="end-time" step="900">
+                    <input type="time" id="end-time" name="end-time">
                     
                     <div>
                         <p>タグ</p>
@@ -102,7 +102,13 @@
         <!--とりあえずここに表示しているがカレンダーの日付の枠に表示したい-->
         <% @tasks.each do |task| %>
             <% if @calendar.id == task.calendar_id %>
-                <div class="task" id="edit-modal-open">
+                <div class="task" id="edit-modal-open" 
+                     data-id="<%= task["id"] %>"
+                     data-task-name="<%= task["task_name"] %>"
+                     data-start-time="<%= task["start_time"] %>"
+                     data-end-time="<%= task["end_time"] %>"
+                     data-tag-color="<%= task["tag_color_id"] %>"
+                     >
                     <p>予定名：<%= task.task_name %></p>
                     <p>開始時間：<%= task.start_time %></p>
                     <p>終了時間：<%= task.end_time %></p>
@@ -140,7 +146,7 @@
     </div>
     
     <script>
-      const $tasks = <%= @tasks.to_json %>;
+      const tasks = <%= @tasks.to_json %>;
     </script>
 
     <script src="../js/main.js"></script>

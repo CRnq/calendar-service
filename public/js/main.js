@@ -56,29 +56,75 @@ function generateCalendar(year, month){
     // イベントの追加
     createCalendarHtml += '<div class="calendar__event calendar__event--done" style="grid-column: 2 / 5; grid-row: 2; margin-top: 2rem;">Metting</div>'
     
+    
     // HTMLをerbファイルの指定したidのところへ実行する
     document.getElementById('year-month').innerHTML = createYearMonthHtml;
     document.getElementById('calendar_body').innerHTML = createCalendarHtml;
+    
+    const tasks = document.querySelectorAll('.task');
+    
+    tasks.forEach(task => {
+        // data-* 属性から値を取得
+        const id = task.dataset.id;
+        const taskName = task.dataset.taskName;
+        const startTime = task.dataset.startTime;
+        const endTime = task.dataset.endTime;
+        const tagColor = task.dataset.tagColor;
+        
+        
+        const startDate = new Date(startTime);
+        const endDate = new Date(endTime);
+        
+        const firstDate = new Date(year, month-1, 1);
+        const firstDay = firstDate.getDay();
+        
+        // イベントの日付に応じてgridの行と列を計算
+        const startDay = startDate.getDate();
+        const endDay = endDate.getDate();
+        
+        const gridRowStart = Math.floor((startDay + firstDay - 1) / 7) + 2; // 日に基づいて計算
+        const gridColumnStart = (startDate.getDay() + 1); // 曜日に基づいて計算
+        const gridColumnEnd = (endDate.getDay() + 2);
+        
+        console.log("START TIME :" + startDate);
+        console.log("END TIME :" + endDate);
+        
+        console.log("START DAY is :" + startDay);
+        console.log("END DAY is :" + endDay);
+        console.log(gridRowStart + "行目");
+        console.log(gridColumnStart + "列目で始まる");
+        console.log(gridColumnEnd + "列目で終わる");
+        
+        document.getElementById('calendar_body').innerHTML += `<div class="calendar__event" style="grid-column: ${gridColumnStart} / ${gridColumnEnd}; grid-row: ${gridRowStart};">${taskName}</div>`;;
+    });
+    
 }
 
-// タスクの追加
-tasks.forEach(task => {
-  const startDate = new Date(task.start_time);
-  const endDate = new Date(task.end_time);
-  
-  // イベントの日付に応じてgridの行と列を計算
-  const startDay = startDate.getDate();
-  const endDay = endDate.getDate();
-  
-  const gridRowStart = Math.floor((startDay - 1) / 7) + 2; // 日に基づいて計算
-  const gridColumnStart = (startDate.getDay() + 1); // 曜日に基づいて計算
-  const gridColumnEnd = (endDate.getDay() + 2);
 
-  // イベントを配置
-  const eventHtml = `<div class="calendar__event" style="grid-column: ${gridColumnStart} / ${gridColumnEnd}; grid-row: ${gridRowStart};">${task.task_name}</div>`;
+
+
+// タスクの追加
+
+// tasks.forEach(task => {
+//   const startDate = new Date(task.start_time);
+//   const endDate = new Date(task.end_time);
+  
+//   const firstDate = new Date(year, month-1, 1);
+//   const firstDay = firstDate.getDay();
+  
+//   // イベントの日付に応じてgridの行と列を計算
+//   const startDay = startDate.getDate();
+//   const endDay = endDate.getDate();
+  
+//   const gridRowStart = Math.floor((startDay + firstDay - 1) / 7) + 2; // 日に基づいて計算
+//   const gridColumnStart = (startDate.getDay() + 1); // 曜日に基づいて計算
+//   const gridColumnEnd = (endDate.getDay() + 2);
+
+//   // イベントを配置
+//   const eventHtml = `<div class="calendar__event" style="grid-column: ${gridColumnStart} / ${gridColumnEnd}; grid-row: ${gridRowStart};">${task.task_name}</div>`;
     
-  document.getElementById('calendar_body').insertAdjacentHTML('beforeend', eventHtml);
-});
+//   document.getElementById('calendar_body').insertAdjacentHTML('beforeend', eventHtml);
+// });
 
 // 初期状態では今月を表示
 generateCalendar(currentYear, currentMonth);
@@ -143,21 +189,21 @@ modalBg.addEventListener('click', () => {
 
 //　予定編集のモーダルウィンドウ
 
-const open_edit = document.getElementById('edit-modal-container')
-const container_edit = document.getElementById('edit-modal-container')
-const close_edit = document.getElementById('edit-modal-close')
+// const open_edit = document.getElementById('edit-modal-container')
+// const container_edit = document.getElementById('edit-modal-container')
+// const close_edit = document.getElementById('edit-modal-close')
 
-open_edit.addEventListener('click', () => {
-    container_edit.classList.add('active');
-    modalBg.calssList.add('active');
-});
+// open_edit.addEventListener('click', () => {
+//     container_edit.classList.add('active');
+//     modalBg.calssList.add('active');
+// });
 
-close_edit.addEventListener('click', () => {
-    container_edit.classList.remove('active');
-    modalBg.classList.remove('active');
-});
+// close_edit.addEventListener('click', () => {
+//     container_edit.classList.remove('active');
+//     modalBg.classList.remove('active');
+// });
 
-modalBg.addEventListener('click', () => {
-    container_edit.classList.remove('active');
-    modalBg.classList.remove('active');
-});
+// modalBg.addEventListener('click', () => {
+//     container_edit.classList.remove('active');
+//     modalBg.classList.remove('active');
+// });

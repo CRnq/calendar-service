@@ -499,20 +499,17 @@ nav .inner ul li a:hover{
 }
 
 .calendar__event {
-    border-radius: 9999px;
     color: red;
     height: 1rem;
-    margin: 0.5rem;
     padding: 0 0.5rem;
     font-size: 0.7rem;
+    margin-top: 2rem;
+    
+    background: rgb(74 222 128);
 
     display: flex;
     align-items: center;
 }
-.calendar__event--done {
-    background: rgb(74 222 128);
-}
-
 
 /*カレンダーの各カラムの行列番号設定*/
 
