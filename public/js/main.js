@@ -74,7 +74,7 @@ function generateCalendar(year, month){
         const taskName = task.dataset.taskName;
         const startTime = task.dataset.startTime;
         const endTime = task.dataset.endTime;
-        const tagColor = task.dataset.tagColor;
+        const tagColorId = task.dataset.tagColor;
         
         
         const startDate = new Date(startTime);
@@ -114,13 +114,18 @@ function generateCalendar(year, month){
         const gridColumnStart = (startDate.getDay() + 1); // 曜日に基づいて計算
         const gridColumnEnd = (endDate.getDay() + 2);
         
+        
+        const backgroundColor = tagColors[tagColorId] || 'rgb(74, 222, 128)';
+        
         // 重複タスクのポジションで高さ調整
         document.getElementById('calendar_body').innerHTML += `
             <div data-id="${id}" class="calendar__event" 
                 style="
                     grid-column: ${gridColumnStart} / ${gridColumnEnd}; 
-                    grid-row: ${gridRowStart} / ${gridRowEnd}; 
+                    grid-row: ${gridRowStart}; 
                     margin-top: ${(taskPosition + 1) * 2}rem;
+                    background-color: ${backgroundColor};
+                    color: white;
                 ">
                 ${taskName}
             </div>`;
@@ -131,7 +136,7 @@ function generateCalendar(year, month){
         taskElement.classList.add('calendar__event');
         taskElement.style.gridColumn = `${gridColumnStart} / ${gridColumnEnd}`;
         taskElement.style.gridRow = `${gridRowStart} / ${gridRowEnd}`;
-        taskElement.style.marginTop = `${taskPosition * 2}rem`;
+        taskElement.style.marginTop = `${(taskPosition + 1) * 2}rem`;
         taskElement.textContent = taskName;
         taskElement.style.opacity = 0;
         
@@ -140,7 +145,6 @@ function generateCalendar(year, month){
         });
         
         document.getElementById('calendar_body').appendChild(taskElement);
-        
     });
     
 }
@@ -225,7 +229,6 @@ const openEditModal = (id) => {
         const startTimeInput = editModal.querySelector('#start-time');
         const endDateInput = editModal.querySelector('#end-date');
         const endTimeInput = editModal.querySelector('#end-time');
-        const tagColorSelect = editModal.querySelector('#tag_color_id');
         const form = editModal.querySelector('form');
         const deleteLink = document.getElementById('delete-task-link');
 
@@ -242,7 +245,6 @@ const openEditModal = (id) => {
         startTimeInput.value = task.start_time.split('T')[1].substring(0, 5);
         endDateInput.value = task.end_time.split('T')[0];
         endTimeInput.value = task.end_time.split('T')[1].substring(0, 5);
-        tagColorSelect.value = task.tag_color_id;
 
         editModal.classList.add('active');
         modalBg.classList.add('active');

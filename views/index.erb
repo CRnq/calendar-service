@@ -107,7 +107,7 @@
                         <p>タグ</p>
                         <select name="tag_color_id" id="tag_color_id">
                             <% @colors.each do |color| %>
-                              <option value="<% color.id %>"><% color.color_name %> (<% color.color_code %>)</option>
+                              <option value="<%= color.id %>"><%= color.color_name %> (<%= color.color_code %>)</option>
                             <% end %>
                         </select>
                     </div>
@@ -149,6 +149,8 @@
     <script>
       // Rubyで生成した天気情報をJavaScriptのオブジェクトに渡す
       const dailyWeather = <%= @daily_weather.to_json %>;
+    　//  タグカラーを送る
+      const tagColors = <%= @tag_colors.to_json %>;
     </script>
     <script src="../js/main.js"></script>
 </section>

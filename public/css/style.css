@@ -106,6 +106,7 @@ label p{
     transition: all 0.5s;
     z-index: 3;
     opacity: 0;
+    z-index: 1000;
 }
 
 #calendar_menu.open nav{
@@ -149,7 +150,7 @@ nav .inner ul li a:hover{
     left: 30px;
     width: 30px;
     height: 30px;
-    z-index: 3;
+    z-index: 1000;
     cursor: pointer;
 }
 
@@ -206,6 +207,7 @@ nav .inner ul li a:hover{
     left: 0;
     position: fixed;
     opacity: 0.7;
+    z-index: 999;
     cursor: pointer;
 }
 
@@ -297,7 +299,7 @@ nav .inner ul li a:hover{
 }
 
 .calendar-main{
-    padding: 0 200px;
+    padding: 0 100px;
 }
 
 .calendar-main-contents{
@@ -308,7 +310,7 @@ nav .inner ul li a:hover{
 
 /*　ボディ部分　*/
 
-#event-modal-open{
+#event-modal-open, #edit-modal-open{
     cursor: pointer;
 }
 
@@ -340,30 +342,43 @@ nav .inner ul li a:hover{
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
     opacity: 0;
     pointer-events: none;
 }
 
-#event-modal-container.active{
+#event-modal-container.active, #edit-modal-container.active{
     opacity: 1;
     pointer-events: auto;
 }
 
-#event-modal-container{
+#event-modal-container, #edit-modal-container{
     position: absolute;
-    top: 160px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     background-color: #fff;
     width: 25%;
     padding: 60px;
+    z-index: 1000;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     opacity: 0;
     pointer-events: none;
 }
 
-#event-modal-close{
-    padding: 10px;
-    font-size: 20px;
+#event-modal-close, #edit-modal-close{
+    margin-top: 15px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #4d4d4d;
+    transition: color 0.3s ease;
+}
+
+
+
+#event-modal-close:hover, #edit-modal-close:hover {
+    color: #1a1a1a; 
 }
 
 .date-time-picker {
@@ -372,34 +387,68 @@ nav .inner ul li a:hover{
     gap: 10px;
 }
 
-.date-time-picker .task-name{
-    border: none;
-    border-bottom: 1px solid #000;
+.date-time-picker input[type="text"],
+.date-time-picker input[type="date"],
+.date-time-picker input[type="time"],
+.date-time-picker select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
 }
 
 .date-time-picker label {
-    font-size: 14px;
+    font-weight: bold;
     margin-bottom: 5px;
 }
 
-.date-time-picker input {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    width: 100%;
+.date-time-picker div {
+    display: flex;
+    flex-direction: column;
 }
 
-.date-time-picker input[type="date"],
-.date-time-picker input[type="time"] {
-    cursor: pointer;
+.date-time-picker div p {
+    margin: 0;
+    font-weight: bold;
 }
 
 .date-time-picker input:focus {
     border-color: #4285f4; /* Googleカレンダーの青色 */
     box-shadow: 0 0 5px rgba(66, 133, 244, 0.5);
     outline: none;
+}
+
+.date-time-picker a {
+    margin-top: 15px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    color: #ff4d4d; /* Change to your preferred close button color */
+    transition: color 0.3s ease;
+}
+
+.date-time-picker a:hover {
+    color: #d11a1a; /* Darken close button on hover */
+}
+
+.date-time-picker button {
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #4f46e5; /* Change to your preferred color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.date-time-picker button:hover {
+    background-color: #4338ca; /* Darken button on hover */
 }
 
 #color-palette {
@@ -422,39 +471,12 @@ nav .inner ul li a:hover{
 }
 
 
-#edit-modal-open{
-    cursor: pointer;
-}
-
-#edit-modal-container.active{
-    opacity: 1;
-    pointer-events: auto;
-}
-
-#edit-modal-container{
-    position: absolute;
-    top: 160px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #fff;
-    width: 25%;
-    padding: 60px;
-    opacity: 0;
-    pointer-events: none;
-}
-
-#edit-modal-close{
-    padding: 10px;
-    font-size: 20px;
-}
-
-
 /*カレンダー*/
 
 .calendar-body{
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 2rem repeat(5, 5rem);
+    grid-template-rows: 2rem repeat(5, 7rem);
     border-left: 1px solid rgb(203, 213, 225);
     border-top: 1px solid rgb(203, 213, 225);
     border-right: 1px solid rgb(203, 213, 225);
@@ -497,14 +519,15 @@ nav .inner ul li a:hover{
 }
 
 .weather-icon {
-    width: 25%; /* Make the icon half its original size */
-    height: auto; /* Maintain aspect ratio */
-    position: absolute; /* Position it within the cell */
-    bottom: 5px; /* Align to the bottom */
-    right: 5px; /* Align to the right */
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); /* Add a shadow */
-    border-radius: 50%; /* Optional: add rounded corners */
-    background-color: rgba(255, 255, 255, 0.9); /* Optional: semi-transparent background */
+    width: 25%; 
+    height: auto; 
+    position: absolute; 
+    bottom: 5px; 
+    right: 5px;
+    z-index: 500;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); 
+    border-radius: 50%; 
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 .prev-month-day:nth-child(7n + 7), 
@@ -515,9 +538,9 @@ nav .inner ul li a:hover{
 
 .calendar__event {
     color: red;
-    height: 1rem;
+    height: 1.3rem;
     padding: 0 0.5rem;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     margin-top: 2rem;
     margin: 0 5px;
     border-radius: 30px;

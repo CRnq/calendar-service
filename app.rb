@@ -103,8 +103,9 @@ get '/calendar/:id' do
     @current_user = current_user
     @calendar = Calendar.find(params[:id])
     @colors = Tagcolor.all
-    
     @tasks = Task.where(calendar_id: @calendar.id)
+    
+    @tag_colors = @colors.map { |c| [c.id, c.color_code] }.to_h
     
     # ユーザーの住んでいる都道府県
     prefecture_id = @current_user.area_id 
@@ -205,7 +206,6 @@ post '/calendar/:calendar_id/task/:task_id/edit' do
     calendar = Calendar.find(params[:calendar_id])
     task = Task.find(params[:task_id])
     
-    c
     
     task.update(
         task_name: params[:task_name],
