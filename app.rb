@@ -175,10 +175,19 @@ post '/calendar/:id/task/new' do
     end
 end
 
+get '/calendar/:calendar_id/task/:task_id/edit' do
+    calendar = Calendar.find(params[:calendar_id])
+    task = Task.find(params[:task_id])
+    
+    content_type :json
+    task.to_json
+end
 
 post '/calendar/:calendar_id/task/:task_id/edit' do
     calendar = Calendar.find(params[:calendar_id])
     task = Task.find(params[:task_id])
+    
+    c
     
     task.update(
         task_name: params[:task_name],
@@ -187,5 +196,14 @@ post '/calendar/:calendar_id/task/:task_id/edit' do
         tag_color_id: params[:tag_color_id]
         )
     
+    redirect "/calendar/#{calendar.id}"
+end
+
+get '/calendar/:calendar_id/task/:task_id/delete' do
+    calendar = Calendar.find(params[:calendar_id])
+    task = Task.find(params[:task_id])
+
+    task.destroy
+
     redirect "/calendar/#{calendar.id}"
 end

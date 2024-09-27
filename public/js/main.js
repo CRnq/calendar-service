@@ -53,16 +53,14 @@ function generateCalendar(year, month){
         }
     }
     
-    // イベントの追加
-    createCalendarHtml += '<div class="calendar__event calendar__event--done" style="grid-column: 2 / 5; grid-row: 2; margin-top: 2rem;">Metting</div>'
-    
-    
     // HTMLをerbファイルの指定したidのところへ実行する
     document.getElementById('year-month').innerHTML = createYearMonthHtml;
     document.getElementById('calendar_body').innerHTML = createCalendarHtml;
     
-    const tasks = document.querySelectorAll('.task');
-    
+    // イベントの表示
+    const taskElements = document.querySelectorAll('.task'); // 例: タスクを含む要素を選択
+    const tasks = Array.from(taskElements);
+   
     tasks.forEach(task => {
         // data-* 属性から値を取得
         const id = task.dataset.id;
@@ -75,6 +73,11 @@ function generateCalendar(year, month){
         const startDate = new Date(startTime);
         const endDate = new Date(endTime);
         
+        // タスクの開始月が現在表示している月と異なる場合は表示しない
+        if (startDate.getMonth() + 1 !== currentMonth) {
+            return;
+        }
+        
         const firstDate = new Date(year, month-1, 1);
         const firstDay = firstDate.getDay();
         
@@ -82,49 +85,58 @@ function generateCalendar(year, month){
         const startDay = startDate.getDate();
         const endDay = endDate.getDate();
         
+        // 同じ日付に重複するタスクをフィルタリング
+        const overlappingTasks = tasks.filter(t => {
+            const taskStart = new Date(t.dataset.startTime);
+            const taskEnd = new Date(t.dataset.endTime);
+            const taskStartMonth = taskStart.getMonth() + 1; // 月は0から始まるため
+            const taskEndMonth = taskEnd.getMonth() + 1;
+    
+            // 他のタスクの開始日と終了日の間にタスクがある場合にフラグを立てる
+            const isWithinCurrentMonth = (taskStartMonth === currentMonth || taskEndMonth === currentMonth) &&
+                (taskStart.getDate() <= endDay && taskEnd.getDate() >= startDay);
+    
+            return isWithinCurrentMonth;
+        });
+
+        const taskPosition = overlappingTasks.indexOf(task); // 現在のタスクの位置
+        const overlappingCount = overlappingTasks.length;　// 重複タスクの数
+        
         const gridRowStart = Math.floor((startDay + firstDay - 1) / 7) + 2; // 日に基づいて計算
+        let gridRowEnd = Math.floor((endDay + firstDay - 1) / 7) + 2;
         const gridColumnStart = (startDate.getDay() + 1); // 曜日に基づいて計算
         const gridColumnEnd = (endDate.getDay() + 2);
         
-        console.log("START TIME :" + startDate);
-        console.log("END TIME :" + endDate);
+        // 重複タスクのポジションで高さ調整
+        document.getElementById('calendar_body').innerHTML += `
+            <div data-id="${id}" class="calendar__event" 
+                style="
+                    grid-column: ${gridColumnStart} / ${gridColumnEnd}; 
+                    grid-row: ${gridRowStart} / ${gridRowEnd}; 
+                    margin-top: ${(taskPosition + 1) * 2}rem;
+                ">
+                ${taskName}
+            </div>`;
         
-        console.log("START DAY is :" + startDay);
-        console.log("END DAY is :" + endDay);
-        console.log(gridRowStart + "行目");
-        console.log(gridColumnStart + "列目で始まる");
-        console.log(gridColumnEnd + "列目で終わる");
+        // タスクにtask.idを付与
+        const taskElement = document.createElement('div');
+        taskElement.dataset.id = id;
+        taskElement.classList.add('calendar__event');
+        taskElement.style.gridColumn = `${gridColumnStart} / ${gridColumnEnd}`;
+        taskElement.style.gridRow = `${gridRowStart} / ${gridRowEnd}`;
+        taskElement.style.marginTop = `${taskPosition * 2}rem`;
+        taskElement.textContent = taskName;
+        taskElement.style.opacity = 0;
         
-        document.getElementById('calendar_body').innerHTML += `<div class="calendar__event" style="grid-column: ${gridColumnStart} / ${gridColumnEnd}; grid-row: ${gridRowStart};">${taskName}</div>`;;
+        taskElement.addEventListener('click', () => {
+            openEditModal(id);
+        });
+        
+        document.getElementById('calendar_body').appendChild(taskElement);
+        
     });
     
 }
-
-
-
-
-// タスクの追加
-
-// tasks.forEach(task => {
-//   const startDate = new Date(task.start_time);
-//   const endDate = new Date(task.end_time);
-  
-//   const firstDate = new Date(year, month-1, 1);
-//   const firstDay = firstDate.getDay();
-  
-//   // イベントの日付に応じてgridの行と列を計算
-//   const startDay = startDate.getDate();
-//   const endDay = endDate.getDate();
-  
-//   const gridRowStart = Math.floor((startDay + firstDay - 1) / 7) + 2; // 日に基づいて計算
-//   const gridColumnStart = (startDate.getDay() + 1); // 曜日に基づいて計算
-//   const gridColumnEnd = (endDate.getDay() + 2);
-
-//   // イベントを配置
-//   const eventHtml = `<div class="calendar__event" style="grid-column: ${gridColumnStart} / ${gridColumnEnd}; grid-row: ${gridRowStart};">${task.task_name}</div>`;
-    
-//   document.getElementById('calendar_body').insertAdjacentHTML('beforeend', eventHtml);
-// });
 
 // 初期状態では今月を表示
 generateCalendar(currentYear, currentMonth);
@@ -151,17 +163,17 @@ nextMonthButton.addEventListener('click', function(){
 
 // ハンバーガーメニュー
 
-let nav = document.getElementById('calendar_menu')
-let btn = document.querySelector('.toggle-btn')
-let mask = document.getElementById('mask')
+let nav = document.getElementById('calendar_menu');
+let btn = document.querySelector('.toggle-btn');
+let mask = document.getElementById('mask');
 
 btn.onclick = () => {
     nav.classList.toggle('open');
-}
+};
 
 mask.onclick = () =>{
     nav.classList.toggle('open');
-}
+};
 
 
 // 予定作成のモーダルウィンドウ
@@ -189,21 +201,61 @@ modalBg.addEventListener('click', () => {
 
 //　予定編集のモーダルウィンドウ
 
-// const open_edit = document.getElementById('edit-modal-container')
-// const container_edit = document.getElementById('edit-modal-container')
-// const close_edit = document.getElementById('edit-modal-close')
+const calendarId = window.location.pathname.split("/")[2];
 
-// open_edit.addEventListener('click', () => {
-//     container_edit.classList.add('active');
-//     modalBg.calssList.add('active');
-// });
+const openEditModal = (id) => {
+    fetch(`/calendar/${calendarId}/task/${id}/edit`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(task => {
+        const editModal = document.getElementById('edit-modal-container');
+        const taskNameInput = editModal.querySelector('.task-name');
+        const startDateInput = editModal.querySelector('#start-date');
+        const startTimeInput = editModal.querySelector('#start-time');
+        const endDateInput = editModal.querySelector('#end-date');
+        const endTimeInput = editModal.querySelector('#end-time');
+        const tagColorSelect = editModal.querySelector('#tag_color_id');
+        const form = editModal.querySelector('form');
+        const deleteLink = document.getElementById('delete-task-link');
 
-// close_edit.addEventListener('click', () => {
-//     container_edit.classList.remove('active');
-//     modalBg.classList.remove('active');
-// });
+        // フォームのactionを動的に設定
+        form.action = `/calendar/${calendarId}/task/${id}/edit`;
+        
+        // 削除リンクのhrefを動的に設定
+        deleteLink.href = `/calendar/${calendarId}/task/${id}/delete`;
 
-// modalBg.addEventListener('click', () => {
-//     container_edit.classList.remove('active');
-//     modalBg.classList.remove('active');
-// });
+
+        // タスク情報をモーダルにセット
+        taskNameInput.value = task.task_name;
+        startDateInput.value = task.start_time.split('T')[0];
+        startTimeInput.value = task.start_time.split('T')[1].substring(0, 5);
+        endDateInput.value = task.end_time.split('T')[0];
+        endTimeInput.value = task.end_time.split('T')[1].substring(0, 5);
+        tagColorSelect.value = task.tag_color_id;
+
+        editModal.classList.add('active');
+        modalBg.classList.add('active');
+    })
+    .catch(error => console.error('Error:', error));
+};
+    
+
+const closeEditModal = () => {
+    const editModal = document.getElementById('edit-modal-container');
+    editModal.classList.remove('active');
+    modalBg.classList.remove('active');
+};
+
+document.getElementById('edit-modal-close').addEventListener('click', closeEditModal);
+modalBg.addEventListener('click', closeEditModal);
+
+document.querySelectorAll('.calendar__event').forEach(event => {
+    event.addEventListener('click', function() {
+        const taskId = this.dataset.id;
+        openEditModal(taskId);
+    });
+});
