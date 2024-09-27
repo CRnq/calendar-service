@@ -9,7 +9,7 @@
                         <% else %>
                             <%= @current_user.username %>のカレンダー
                         <% end %></a></li>
-                    <li><a href="#">カレンダー</a></li>
+                    <li><a href="/logout">ログアウト</a></li>
                     <li><a href="#">カレンダー</a></li>
                     <li><a href="#">カレンダー</a></li>
                 </ul>
@@ -46,7 +46,6 @@
         <div class="calendar_info">
             <p>カレンダーID：<%= @calendar.id %></p>
             <img src="/<%= @current_user.user_img %>" width="40" height="40" >
-            <!--<a href="/logout">ログアウト</a>-->
         </div>
     </div>
     <div class="calendar-main">
@@ -147,5 +146,9 @@
         
     </div>
 
+    <script>
+      // Rubyで生成した天気情報をJavaScriptのオブジェクトに渡す
+      const dailyWeather = <%= @daily_weather.to_json %>;
+    </script>
     <script src="../js/main.js"></script>
 </section>

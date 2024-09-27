@@ -36,14 +36,21 @@ function generateCalendar(year, month){
     // 月の終わりにフラグを立てる
     let isNextMonth = false;
     
-    // ５週分繰り返す
-    for (let n = 0; n < 5; n++){
-        for (let d = 0; d < 7; d++){
+    // 5週分繰り返す
+    for (let n = 0; n < 5; n++) {
+        for (let d = 0; d < 7; d++) {
             // 先月、来月の日付を表示
-            if (n == 0 && d < firstDay){
+            if (n === 0 && d < firstDay) {
                 createCalendarHtml += '<div class="prev-month-day">' + (prevLastDayCount - (firstDay - d - 1)) + '</div>';
-            } else if (!isNextMonth && dayCount <= lastDayCount){
-                createCalendarHtml += '<div class="current-month-day">' + dayCount + '</div>';
+            } else if (!isNextMonth && dayCount <= lastDayCount) {
+                let dateKey = `${year}-${String(month).padStart(2, '0')}-${String(dayCount).padStart(2, '0')}`;
+                let icon = dailyWeather[dateKey]; // 日付に対応する天気アイコンを取得
+
+                createCalendarHtml += `<div class="current-month-day">
+                    ${dayCount}
+                    ${icon ? `<img src="https://openweathermap.org/img/wn/${icon}.png" alt="weather icon" class="weather-icon">` : ''}
+                </div>`;
+                
                 dayCount++;
             } else {
                 isNextMonth = true;
@@ -138,9 +145,9 @@ function generateCalendar(year, month){
     
 }
 
+
 // 初期状態では今月を表示
 generateCalendar(currentYear, currentMonth);
-
 // 先月のボタンクリックイベント
 prevMonthButton.addEventListener('click', function () {
     currentMonth--;

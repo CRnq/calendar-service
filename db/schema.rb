@@ -10,19 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_09_20_162314) do
+ActiveRecord::Schema.define(version: 2024_09_27_061801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "Areas", force: :cascade do |t|
-    t.string "area_name"
-  end
-
-  create_table "Tagcolors", force: :cascade do |t|
-    t.string "color_code"
-    t.string "color_name"
-  end
 
   create_table "areas", force: :cascade do |t|
     t.string "area_name"

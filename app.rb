@@ -4,6 +4,7 @@ require 'sinatra/reloader' if development?
 require './models/models.rb'
 require 'json'
 require 'bcrypt'
+require 'httparty'
 
 enable :sessions
 
@@ -104,6 +105,23 @@ get '/calendar/:id' do
     @colors = Tagcolor.all
     
     @tasks = Task.where(calendar_id: @calendar.id)
+    
+    # ユーザーの住んでいる都道府県
+    prefecture_id = @current_user.area_id 
+    # そのIDをもとに都道府県のレコードを呼び出し、都道府県名をprefectureに入れる
+    prefecture_record = Area.find_by(id: prefecture_id)
+    prefecture = prefecture_record.area_name
+    
+    query = { q: prefecture, appid: "5553ec910818588b1fbca3e0a14cd70e", units: 'metric', lang: 'ja' }
+    response = HTTParty.get('https://api.openweathermap.org/data/2.5/forecast', query: query)
+    
+    weather_data = JSON.parse(response.body)
+    
+    # 日ごとの天気情報を抽出
+    @daily_weather = weather_data['list'].each_with_object({}) do |forecast, acc|
+        date = forecast['dt_txt'].split(' ')[0]
+        acc[date] ||= forecast['weather'][0]['icon'] # 一日の最初の天気アイコンを格納
+    end
     
     erb :index
 end

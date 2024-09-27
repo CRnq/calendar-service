@@ -492,6 +492,21 @@ nav .inner ul li a:hover{
     border-bottom: 1px solid rgb(203, 213, 225);
 }
 
+.current-month-day {
+    position: relative; /* Ensure the weather icon can be positioned relative to this cell */
+}
+
+.weather-icon {
+    width: 25%; /* Make the icon half its original size */
+    height: auto; /* Maintain aspect ratio */
+    position: absolute; /* Position it within the cell */
+    bottom: 5px; /* Align to the bottom */
+    right: 5px; /* Align to the right */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); /* Add a shadow */
+    border-radius: 50%; /* Optional: add rounded corners */
+    background-color: rgba(255, 255, 255, 0.9); /* Optional: semi-transparent background */
+}
+
 .prev-month-day:nth-child(7n + 7), 
 .current-month-day:nth-child(7n + 7), 
 .next-month-day:nth-child(7n + 7) {
