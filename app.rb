@@ -182,10 +182,18 @@ post '/join' do
 end
 
 post '/calendar/:id/delete' do
-    calendar = Calendar.find_by(id: params[:caledar_id])
-    calendar.destroy
-    # redirect "/"ユーザーの個人カレンダーにリダイレクト
+    calendar = Calendar.find_by(id: params[:id])
+    if calendar.user_id != current_user.id
+        user_calendars = UserCalendar.find_by(calendar_id: calendar.id)
+        user_calendars.destroy
+        my_calendar = Calendar.find_by(user_id: current_user.id)
+        redirect "/calendar/#{my_calendar.id}"
+    else
+        calendar.destroy
+        redirect "/calendar"
+    end
 end
+
 
 post '/calendar/:id/task/new' do
     calendar = Calendar.find(params[:id])

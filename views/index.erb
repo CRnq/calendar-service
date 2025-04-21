@@ -17,6 +17,7 @@
                         </li>
                     <% end %>
                     <li><a href="/logout">ログアウト</a></li>
+                    <li><form action="/calendar/<%= @calendar.id %>/delete" method="POST"><button type="submit">カレンダー削除<button></form></li>
                 </ul>
             </div>
         </nav>
