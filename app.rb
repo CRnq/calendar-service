@@ -101,7 +101,6 @@ end
 
 get '/calendar/:id' do
     @current_user = current_user
-    @user_calendars = UserCalendar.where(user_id: @current_user.id)
     @calendar = Calendar.find(params[:id])
     @colors = Tagcolor.all
     @tasks = Task.where(calendar_id: @calendar.id)
@@ -128,56 +127,42 @@ get '/calendar/:id' do
     erb :index
 end
 
-get '/new' do
-    erb :calendar_new
-end
-
-post '/new' do
+post '/calendar/new' do
     user = current_user
     
     calendar_name = params[:calendar_name]
+    # カレンダーの名前入力されたことを確認
     if calendar_name && !calendar_name.empty?
-        existing_calendar = Calendar.find_by(calendar_name: calendar_name)
+    # すでに同じ名前のカレンダーが存在するか確認
+    existing_calendar = Calendar.find_by(calendar_name: calendar_name)
 
         if existing_calendar
-            redirect '/new'
+            # 既に同じカレンダー名が存在する場合は作成しない
+            redirect '/calendar/new'
         else
+            # 同じカレンダー名が存在しない場合、新しいカレンダーを作成
             calendar = Calendar.create(
                 calendar_name: calendar_name,
                 user_id: user.id,
                 is_shared: true
             )
-            UserCalendar.create(
-                user_id: user.id,
-                calendar_id: calendar.id
-            )
+    
             redirect "calendar/#{calendar.id}"
         end
     else
-        redirect '/new'
+        redirect '/calendar/new'
     end
+
 end
 
-get '/join' do
-    erb :calendar_join
-end
-
-post '/join' do
+post '/calendar/join' do
     cal_id = params[:calendar_id]
     
     calendar = Calendar.find_by(id: cal_id)
     if calendar && calendar.is_shared == true
-        user_calendars = UserCalendar.new(
-            user_id: current_user.id,
-            calendar_id: cal_id
-        )
-        if user_calendars.save
-            redirect "calendar/#{calendar.id}"
-        else
-            redirect '/join'
-        end
+        redirect "calendar/#{calendar.id}"
     else
-        redirect '/join'
+        redirect '/calendar/join'
     end
 end
 

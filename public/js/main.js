@@ -10,9 +10,6 @@ let currentMonth = month;
 const prevMonthButton = document.getElementById('prev-month-button')
 const nextMonthButton = document.getElementById('next-month-button')
 
-let displayType = document.querySelector('#display-type');
-
-// 一ヶ月のカレンダーを生成
 function generateCalendar(year, month){
     const firstDate = new Date(year, month-1, 1); //今月の１日
     const firstDay = firstDate.getDay();
@@ -152,90 +149,9 @@ function generateCalendar(year, month){
     
 }
 
-// １週間表示のカレンダーを生成
-function generateWeekCalendar(year, month, date){
-    const todayDay = date.getDay();
-    const todayDate = date.getDate();
-    const weekFirstDay = new Date(year, month-1, todayDate - todayDay);
-    const weekFirstDate = weekFirstDay.getDate();
-
-    let dayCount = 1;
-    let createYearMonthHtml = '<h1 class="year-month">' + year + '/' + month + '</h1>'
-    let createCalendarHtml = "";
-
-    const weeks = ['日', '月', '火', '水', '木', '金', '土'];
-
-    createCalendarHtml += '<div class="Sunday">' + weeks[0] + '</div>';
-
-    for (let i = 1; i < weeks.length - 1; i++){
-        createCalendarHtml += '<div class="weekday">' + weeks[i] + '</div>';
-    }
-
-    createCalendarHtml += '<div class="Saturday">' + weeks[6] + '</div>';
-
-    for (let d = 0; d < 7; d++){
-        createCalendarHtml += '<div class="prev-month-day">' + (weekFirstDate + d) + '</div>';
-    }
-    document.querySelector('#year-month').innerHTML = createYearMonthHtml;
-    document.querySelector('#calendar_body').innerHTML = createCalendarHtml;
-
-}
-
-// 1日のカレンダーを表示
-function generateDayCalendar(year, month, date){
-    const todayDate = date.getDate();
-
-    let createYearMonthHtml = '<h1 class="year-month">' + year + '/' + month + '/' + todayDate + '</h1>';
-    let createCalendarHtml = "";
-
-    const weeks = ['日', '月', '火', '水', '木', '金', '土'];
-
-    switch (date.getDay()){
-        case 0:
-            createCalendarHtml += '<div class="Sunday">' + weeks[date.getDay()] + '</div>';
-            break;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-            createCalendarHtml += '<div class="weekday">' + weeks[date.getDay()] + '</div>';
-            break;
-        case 6:
-            createCalendarHtml += '<div class="Saturday">' + weeks[date.getDay()] + '</div>';
-            break;
-    }
-
-    createCalendarHtml += '<div class="prev-month-day">' + todayDate + '</div>';
-
-    document.querySelector('#year-month').innerHTML = createYearMonthHtml;
-    document.querySelector('#calendar_body').innerHTML = createCalendarHtml
-}
-
-const todayDay = date.getDay();
-const todayDate = date.getDate();
-const weekFirstDate = new Date(year, month-1, todayDate - todayDay);
 
 // 初期状態では今月を表示
-displayType.onchange = () => {
-    switch (displayType.value){
-        case "month":
-            generateCalendar(currentMonth, currentMonth)
-            break;
-
-        case "week":
-            generateWeekCalendar(currentYear, currentMonth, date)
-            break;
-        
-        case "day":
-            generateDayCalendar(currentYear, currentMonth, date)
-            break;
-    }
-}
-
 generateCalendar(currentYear, currentMonth);
-// generateWeekCalendar(currentYear, currentMonth, date);
-
 // 先月のボタンクリックイベント
 prevMonthButton.addEventListener('click', function () {
     currentMonth--;

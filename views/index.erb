@@ -3,20 +3,14 @@
         <nav>
             <div class="inner">
                 <ul>
-                    <li><a href="/new">新規カレンダー作成</a></li>
-                    <li><a href="/join">カレンダーに参加</a></li>
-                    <% @user_calendars.each do |uc| %>
-                        <li>
-                            <a href="/calendar/<%= uc.calendar.id %>">
-                                <% if uc.calendar.calendar_name != nil %>
-                                    <%= uc.calendar.calendar_name  %>のカレンダー
-                                <% else %>
-                                    <%= @current_user.username %>のカレンダー
-                                <% end %>
-                            </a>
-                        </li>
-                    <% end %>
+                    <li><a href="#">
+                        <% if @calendar.calendar_name != nil %>
+                            <%= @calendar.calendar_name %>のカレンダー
+                        <% else %>
+                            <%= @current_user.username %>のカレンダー
+                        <% end %></a></li>
                     <li><a href="/logout">ログアウト</a></li>
+                    <li><a href="#">カレンダー</a></li>
                     <li><a href="#">カレンダー</a></li>
                 </ul>
             </div>
@@ -30,8 +24,6 @@
         
         <div id="mask"></div>
     </div>
-
-    <%# ヘッダー %>
     <div class="calendar_header">
         <p class="calendar_name">
             <% if @calendar.calendar_name != nil %>
@@ -56,8 +48,6 @@
             <img src="/<%= @current_user.user_img %>" width="40" height="40" >
         </div>
     </div>
-
-    <%# カレンダー %>
     <div class="calendar-main">
         <div class="calendar-main-contents">
             <div id="event-modal-open">
@@ -67,14 +57,14 @@
             </div>
             
             <div class="calendar-display">
-                <select id="display-type">
-                    <option value="month" selected>月</option>
+                <select>
+                    <option value="month">月</option>
                     <option value="week">週</option>
                     <option value="day">日</option>
                 </select>
             </div>
             
-            <%# <div id="modal-bg" class=></div> %>
+            <div id="modal-bg" class=></div>
             
             <div id="event-modal-container">
                 <form class="date-time-picker" action="/calendar/<%= @calendar.id %>/task/new" method="POST">
@@ -159,7 +149,7 @@
     <script>
       // Rubyで生成した天気情報をJavaScriptのオブジェクトに渡す
       const dailyWeather = <%= @daily_weather.to_json %>;
-      //  タグカラーを送る
+    　//  タグカラーを送る
       const tagColors = <%= @tag_colors.to_json %>;
     </script>
     <script src="../js/main.js"></script>
