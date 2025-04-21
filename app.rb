@@ -6,7 +6,22 @@ require 'json'
 require 'bcrypt'
 require 'httparty'
 
+require 'dotenv'
+require 'cloudinary'
+require 'cloudinary/uploader'
+require 'cloudinary/utils' 
+
 enable :sessions
+
+before do
+    Dotenv.load
+    Cloudinary.config do |config|
+        config.cloud_name = ENV['CLOUD_NAME']
+        config.api_key = ENV['CLOUDINARY_API_KEY']
+        config.api_secret = ENV['CLOUDINARY_API_SECRET']
+        config.secure = true
+    end
+end
 
 helpers do
     def logged_in?
@@ -37,14 +52,21 @@ end
 
 post '/signup' do
     @areas = Area.all
-    file = params[:file][:tempfile]
-    filename = params[:file][:filename]
+    # file = params[:file][:tempfile]
+    # filename = params[:file][:filename]
     
-    File.open("./public/user_images/#{filename}", "wb") do |f|
-        f.write(file.read)
+    # File.open("./public/user_images/#{filename}", "wb") do |f|
+    #     f.write(file.read)
+    # end
+    
+    # img_path = "user_images/#{filename}"
+    img_url = nil
+    
+    if params[:upload_photo]
+        tempfile = params[:upload_photo][:tempfile]
+        upload = Cloudinary::Uploader.upload(tempfile.path)
+        img_url = upload['url']
     end
-    
-    img_path = "user_images/#{filename}"
     
     pw = params[:password]
     pwc = params[:password_confirmation]
@@ -54,7 +76,7 @@ post '/signup' do
         username: params[:username],
         password: pw,
         password_confirmation: pwc,
-        user_img: img_path,
+        user_img: img_url,
         area_id: params[:area_id]
         )
     
