@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_09_27_061801) do
+ActiveRecord::Schema.define(version: 2025_04_21_045052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,4 +51,6 @@ ActiveRecord::Schema.define(version: 2024_09_27_061801) do
     t.integer "area_id"
   end
 
+  add_foreign_key "user_calendars", "calendars"
+  add_foreign_key "user_calendars", "users"
 end
