@@ -1,9 +1,14 @@
 <div class="unauthed-card">
-    <h1>Smart Calendar</h1>
-    <form class="user-form" action="/login" method="POST">
-        <input type="text" name="username" placeholder="name">
-        <input type="password" name="password" placeholder="password">
-        <button type="submit">Login!</button>
-    </form> 
-    <p class="another-form">アカウントを持っていない場合は<a href="/signup">こちら</a></p>
+  <h1>Smart Calendar</h1>
+  <form class="user-form" action="/login" method="POST">
+    <input type="text" name="username" placeholder="name">
+    <input type="password" name="password" placeholder="password">
+    <button type="submit">Login!</button>
+  </form>
+
+  <p class="another-form">アカウントを持っていない場合は<a href="/signup">こちら</a></p>
+
+  <button onclick="signInWithGoogle()">Googleでログイン</button>
 </div>
+
+<%= erb :firebase_script %>

@@ -1,15 +1,23 @@
+require 'dotenv/load'
 require 'bundler/setup'
 Bundler.require
 require 'sinatra/reloader' if development?
+
 require './models/models.rb'
 require 'json'
 require 'bcrypt'
 require 'httparty'
 
-require 'dotenv'
 require 'cloudinary'
 require 'cloudinary/uploader'
-require 'cloudinary/utils' 
+require 'cloudinary/utils'
+require 'firebase_id_token'
+require_relative './patch/firebase_patch'
+
+FirebaseIdToken.configure do |config|
+  config.project_ids = [ENV['FIREBASE_PROJECT_ID']]
+#   config.redis = nil
+end
 
 enable :sessions
 
@@ -72,24 +80,24 @@ post '/signup' do
     pwc = params[:password_confirmation]
     
     if pw == pwc
-    user = User.create(
-        username: params[:username],
-        password: pw,
-        password_confirmation: pwc,
-        user_img: img_url,
-        area_id: params[:area_id]
-        )
-    
-    calendar = Calendar.create(
-        calendar_name: user.username,
-        user_id: user.id,
-        is_shared: false
-        )
-        
-    UserCalendar.create(
-        user_id: user.id,
-        calendar_id: calendar.id
-        )
+        user = User.create(
+            username: params[:username],
+            password: pw,
+            password_confirmation: pwc,
+            user_img: img_url,
+            area_id: params[:area_id]
+            )
+          
+        calendar = Calendar.create(
+            calendar_name: user.username,
+            user_id: user.id,
+            is_shared: false
+            )
+            
+        UserCalendar.create(
+            user_id: user.id,
+            calendar_id: calendar.id
+            )
     else
         redirect '/signup'
     end
@@ -109,13 +117,61 @@ end
 post '/login' do
     user = User.find_by(username: params[:username])
     if user && user.authenticate(params[:password])
-        session[:user] = user.id
-        redirect '/'
+      session[:user] = user.id
+      redirect '/'
     else
-        redirect '/login'
+      redirect '/login'
     end
 end
+  
 
+post '/login/google' do
+    begin
+      request.body.rewind
+      data = JSON.parse(request.body.read)
+      puts "[DEBUG] idToken: #{data['idToken']}"
+  
+      id_token = data['idToken']
+      payload = FirebaseIdToken::Signature.verify(id_token)
+      puts "[DEBUG] Firebase payload: #{payload.inspect}"
+  
+      email = payload['email']
+      user = User.find_by(email: email)
+      puts "[DEBUG] User found: #{user.inspect}"
+  
+      unless user
+        user = User.create(
+          username: payload['name'],
+          email: payload['email'],
+          password: SecureRandom.hex(10),
+          user_img: payload['picture'],
+          area_id: Area.first&.id || 1
+        )
+        puts "[DEBUG] User created: #{user.inspect}"
+  
+        calendar = Calendar.create(
+          calendar_name: user.username,
+          user_id: user.id,
+          is_shared: false
+        )
+  
+        UserCalendar.create(
+          user_id: user.id,
+          calendar_id: calendar.id
+        )
+      end
+  
+      session[:user] = user.id
+      status 200
+      body "ログイン成功"
+    
+    rescue => e
+      puts "[ERROR] #{e.class}: #{e.message}"
+      puts e.backtrace.join("\n")
+      halt 500, "Internal Server Error"
+    end
+end
+  
 get '/logout' do
     session[:user] = nil
     redirect '/login'
