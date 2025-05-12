@@ -1,0 +1,76 @@
+.calendar_header {
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 100px;
+    background-color: var(--highlight-bg);
+}
+
+#date-picker {
+    display: flex;
+    align-items: center;
+}
+
+#prev-month-button,
+#next-month-button {
+    display: flex;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border: none;
+    background: none;
+    border-radius: 5px;
+    z-index: 3;
+    cursor: pointer;
+}
+
+#prev-month-button:hover,
+#next-month-button:hover {
+    background-color: var(--hover-bg);
+}
+
+#prev-month-button span,
+#next-month-button span {
+    display: block;
+    width: 30px;
+    height: 1.5px;
+    background-color: #333;
+    border-radius: 4px;
+    position: absolute;
+}
+
+#prev-month-button span:nth-child(1) {
+    top: 35px;
+    transform: rotate(-45deg);
+}
+
+#prev-month-button span:nth-child(2) {
+    top: 55px;
+    transform: rotate(45deg);
+}
+
+#next-month-button span:nth-child(1) {
+    top: 35px;
+    transform: rotate(45deg);
+}
+
+#next-month-button span:nth-child(2) {
+    top: 55px;
+    transform: rotate(-45deg);
+}
+
+#year-month {
+    margin: 0 50px;
+    font-size: 24px;
+}
+
+.calendar_info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.calendar_header img {
+    border-radius: 50%;
+}

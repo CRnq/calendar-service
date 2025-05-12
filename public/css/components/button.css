@@ -1,0 +1,33 @@
+#event-modal-open,
+#edit-modal-open {
+    cursor: pointer;
+}
+
+.date-time-picker button {
+    padding: 10px;
+    font-size: 1rem;
+    background-color: var(--button-bg);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.date-time-picker button:hover {
+    background-color: var(--button-bg-hover);
+}
+
+.date-time-picker a {
+    margin-top: 15px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--danger-color);
+    transition: color 0.3s ease;
+}
+
+.date-time-picker a:hover {
+    color: var(--danger-color-hover);
+}

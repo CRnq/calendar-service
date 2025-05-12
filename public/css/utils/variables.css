@@ -1,0 +1,17 @@
+/* utils/variables.css */
+:root {
+    --main-bg: #F5FBFF;
+    --primary-color: #9747FF;
+    --highlight-bg: #E4CCFF;
+    --hover-bg: #e4e4e4;
+    --calendar-sunday: #FFC7C2;
+    --calendar-saturday: #BEE3FF;
+    --weather-icon-bg: rgba(255, 255, 255, 0.9);
+    --modal-overlay: rgba(0, 0, 0, 0.6);
+    --google-blue: #4285f4;
+    --danger-color: #ff4d4d;
+    --danger-color-hover: #d11a1a;
+    --button-bg: #4f46e5;
+    --button-bg-hover: #4338ca;
+    --event-color: rgb(74 222 128);
+  }

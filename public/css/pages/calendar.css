@@ -1,0 +1,143 @@
+.calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 2rem repeat(5, 7rem);
+    border-left: 1px solid rgb(203, 213, 225);
+    border-top: 1px solid rgb(203, 213, 225);
+    border-right: 1px solid rgb(203, 213, 225);
+    width: 100;
+}
+
+.Sunday,
+.weekday,
+.Saturday {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgb(203, 213, 225);
+}
+
+.Sunday {
+    background-color: var(--calendar-sunday);
+    border-right: 1px solid rgb(203, 213, 225);
+}
+
+.Saturday {
+    background-color: var(--calendar-saturday);
+}
+
+.weekday {
+    border-right: 1px solid rgb(203, 213, 225);
+}
+
+.prev-month-day,
+.current-month-day,
+.next-month-day {
+    display: flex;
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    border-right: 1px solid rgb(203, 213, 225);
+    border-bottom: 1px solid rgb(203, 213, 225);
+}
+
+.current-month-day {
+    position: relative;
+}
+
+.weather-icon {
+    width: 25%;
+    height: auto;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 500;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    background-color: var(--weather-icon-bg);
+}
+
+.calendar__event {
+    color: red;
+    height: 1.3rem;
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+    margin: 0 5px;
+    border-radius: 30px;
+    background: var(--event-color);
+    display: flex;
+    align-items: center;
+}
+
+/* カレンダーの各カラムの行列番号設定 */
+.prev-month-day:nth-child(7n + 1),
+.current-month-day:nth-child(7n + 1),
+.next-month-day:nth-child(7n + 1) {
+    grid-column: 1;
+}
+
+.prev-month-day:nth-child(7n + 2),
+.current-month-day:nth-child(7n + 2),
+.next-month-day:nth-child(7n + 2) {
+    grid-column: 2;
+}
+
+.prev-month-day:nth-child(7n + 3),
+.current-month-day:nth-child(7n + 3),
+.next-month-day:nth-child(7n + 3) {
+    grid-column: 3;
+}
+
+.prev-month-day:nth-child(7n + 4),
+.current-month-day:nth-child(7n + 4),
+.next-month-day:nth-child(7n + 4) {
+    grid-column: 4;
+}
+
+.prev-month-day:nth-child(7n + 5),
+.current-month-day:nth-child(7n + 5),
+.next-month-day:nth-child(7n + 5) {
+    grid-column: 5;
+}
+
+.prev-month-day:nth-child(7n + 6),
+.current-month-day:nth-child(7n + 6),
+.next-month-day:nth-child(7n + 6) {
+    grid-column: 6;
+}
+
+.prev-month-day:nth-child(7n + 7),
+.current-month-day:nth-child(7n + 7),
+.next-month-day:nth-child(7n + 7) {
+    grid-column: 7;
+}
+
+.prev-month-day:nth-child(n + 8):nth-child(-n + 14),
+.current-month-day:nth-child(n + 8):nth-child(-n + 14) {
+    grid-row: 2;
+}
+
+.prev-month-day:nth-child(n + 15):nth-child(-n + 21),
+.current-month-day:nth-child(n + 15):nth-child(-n + 21),
+.next-month-day:nth-child(n + 15):nth-child(-n + 21) {
+    grid-row: 3;
+}
+
+.prev-month-day:nth-child(n + 22):nth-child(-n + 28),
+.current-month-day:nth-child(n + 22):nth-child(-n + 28),
+.next-month-day:nth-child(n + 22):nth-child(-n + 28) {
+    grid-row: 4;
+}
+
+.prev-month-day:nth-child(n + 29):nth-child(-n + 35),
+.current-month-day:nth-child(n + 29):nth-child(-n + 35),
+.next-month-day:nth-child(n + 29):nth-child(-n + 35) {
+    grid-row: 5;
+}
+
+.prev-month-day:nth-child(7n + 7),
+.current-month-day:nth-child(7n + 7),
+.next-month-day:nth-child(7n + 7) {
+    border-right: 0;
+}

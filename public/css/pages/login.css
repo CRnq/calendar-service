@@ -1,0 +1,13 @@
+.unauthed-card {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.unauthed-card h1 {
+    margin-top: 70px;
+    font-size: 120px;
+    color: var(--primary-color);
+}
