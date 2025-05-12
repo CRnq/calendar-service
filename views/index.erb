@@ -17,7 +17,7 @@
                         </li>
                     <% end %>
                     <li><a href="/logout">ログアウト</a></li>
-                    <li><form action="/calendar/<%= @calendar.id %>/delete" method="POST"><button type="submit">カレンダー削除<button></form></li>
+                    <li><form action="/calendar/<%= @calendar.id %>/delete" method="POST"><button type="submit">カレンダー削除</button></form></li>
                 </ul>
             </div>
         </nav>
@@ -33,9 +33,9 @@
     <div class="calendar_header">
         <p class="calendar_name">
             <% if @calendar.calendar_name != nil %>
-             <%= @calendar.calendar_name %>のカレンダー
+               <%= @calendar.calendar_name %>のカレンダー
             <% else %>
-             <%= @current_user.username %>のカレンダー
+               <%= @current_user.username %>のカレンダー
             <% end %>
         </p>
         <div id="date-picker">
@@ -122,13 +122,38 @@
                 </form>
                 <div id="edit-modal-close">閉じる</div>
             </div>
-            
+        </div>
+
+        <div id="chat-panel">
+            <div class="chat-header">
+                <h2>メッセージ</h2>
+                <button id="chat-close">閉じる</button>
+            </div>
+            <div class="chat-messages">
+                <% @chats.each do |chat| %>
+                    <% if chat.user_id == @current_user.id %>
+                        <p class="chat-message--mine"><%= chat.message %></p>
+                    <% else %>
+                        <p class="chat-message"><%= chat.message %></p>
+                    <% end %>
+                <% end %>
+            </div>
+            <div class="chat-form">
+                <form action="/calendar/<%= @calendar.id %>/chat" method="POST">
+                    <input class="chat-input" type="text" name="message" placeholder="メッセージを入力" required>
+                    <button class="chat-submit" type="submit">送信</button>
+                </form>
+            </div>
         </div>
         
         <div id="calendar_body" class="calendar-body">
             <!--main.jsにてカレンダーを作成-->
             
             
+        </div>
+
+        <div id="chat-toggle">
+            <p>チャットを開く<p>
         </div>
         
         
@@ -155,7 +180,7 @@
     <script>
       // Rubyで生成した天気情報をJavaScriptのオブジェクトに渡す
       const dailyWeather = <%= @daily_weather.to_json %>;
-    　//  タグカラーを送る
+     //  タグカラーを送る
       const tagColors = <%= @tag_colors.to_json %>;
     </script>
     <script src="../js/main.js"></script>

@@ -39,6 +39,14 @@ helpers do
     def current_user
         User.find(session[:user])
     end
+
+    def authorize_calendar_access!
+        user = current_user
+        calendar = Calendar.find_by(id: params[:id])
+        unless UserCalendar.find_by(user_id: user.id, calendar_id: calendar&.id)
+            halt 403, 'アクセス不可'
+        end
+    end
 end
 
 get '/' do
@@ -178,12 +186,15 @@ get '/logout' do
 end
 
 get '/calendar/:id' do
+    authorize_calendar_access!
+
     @current_user = current_user
     @user_calendars = UserCalendar.where(user_id: @current_user.id)
     @calendar = Calendar.find(params[:id])
+    @chats = Chat.where(calendar_id: params[:id]).limit(100)
+
     @colors = Tagcolor.all
     @tasks = Task.where(calendar_id: @calendar.id)
-    
     @tag_colors = @colors.map { |c| [c.id, c.color_code] }.to_h
     
     # ユーザーの住んでいる都道府県
