@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_04_22_113536) do
+ActiveRecord::Schema.define(version: 2025_05_09_021957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,14 @@ ActiveRecord::Schema.define(version: 2025_04_22_113536) do
     t.string "calendar_name"
     t.integer "user_id"
     t.boolean "is_shared"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.integer "calendar_id"
+    t.integer "user_id"
+    t.string "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tagcolors", force: :cascade do |t|

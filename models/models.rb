@@ -32,3 +32,8 @@ end
 
 class Area < ActiveRecord::Base
 end
+
+class Chat < ActiveRecord::Base
+    belongs_to :user
+    belongs_to :calendar
+end
