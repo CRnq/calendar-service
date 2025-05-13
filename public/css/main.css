@@ -7,10 +7,10 @@
 @import url('molecules/form.css');
 @import url('molecules/modal.css');
 
-/* ================ ORGANIMS =============== */
-@import url('organims/header.css');
-@import url('organims/menu.css');
-@import url('organims/main.css');
+/* ================ ORGANISMS =============== */
+@import url('organisms/header.css');
+@import url('organisms/menu.css');
+@import url('organisms/main.css');
 
 /* ================ PAGES================ */
 @import url('pages/login.css');
