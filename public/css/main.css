@@ -2,8 +2,10 @@
 @import url('base/reset.css');
 @import url('utils/variables.css');
 
+/* ============== ATOMS ============= */
+@import url('atoms/button.css');
+
 /* ============== MOLECULES ============= */
-@import url('molecules/button.css');
 @import url('molecules/form.css');
 @import url('molecules/modal.css');
 
