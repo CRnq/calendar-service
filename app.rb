@@ -55,7 +55,6 @@ get '/' do
         calendars = user.calendars
         calendar = calendars[0]
         redirect "/calendar/#{calendar.id}"
-        # カレンダー表示の処理をかく
     else
         redirect '/login'
     end
@@ -191,7 +190,7 @@ get '/calendar/:id' do
     @current_user = current_user
     @user_calendars = UserCalendar.where(user_id: @current_user.id)
     @calendar = Calendar.find(params[:id])
-    @chats = Chat.where(calendar_id: params[:id]).limit(100)
+    @chats = Chat.where(calendar_id: params[:id]).order(created_at: :desc).limit(20).reverse
 
     @colors = Tagcolor.all
     @tasks = Task.where(calendar_id: @calendar.id)
@@ -215,6 +214,20 @@ get '/calendar/:id' do
     end
     
     erb :index
+end
+
+post '/calendar/:id/chat' do
+    halt 401 unless logged_in?
+    authorize_calendar_access!
+    
+    calendar_id = params[:id]
+
+    chat = Chat.create(
+        calendar_id: calendar_id,
+        user_id: current_user.id,
+        message: params[:message]
+    )
+    redirect "/calendar/#{calendar_id}"
 end
 
 get '/new' do
@@ -337,3 +350,4 @@ get '/calendar/:calendar_id/task/:task_id/delete' do
 
     redirect "/calendar/#{calendar.id}"
 end
+

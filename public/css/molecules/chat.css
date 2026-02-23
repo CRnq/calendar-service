@@ -1,3 +1,13 @@
 #chat-panel {
-    display: none;
+  display: none;
+}
+
+.chat-message {
+  color: aqua;
+  text-align: start;
+}
+
+.chat-message--mine {
+  color: red;
+  text-align: end;
 }

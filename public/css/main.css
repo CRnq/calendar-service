@@ -1,19 +1,20 @@
 /* ================= BASE ================= */
-@import url('base/reset.css');
-@import url('utils/variables.css');
+@import url("base/reset.css");
+@import url("utils/variables.css");
 
 /* ============== ATOMS ============= */
-@import url('atoms/button.css');
+@import url("atoms/button.css");
 
 /* ============== MOLECULES ============= */
-@import url('molecules/form.css');
-@import url('molecules/modal.css');
+@import url("molecules/form.css");
+@import url("molecules/modal.css");
+@import url("molecules/chat.css");
 
 /* ================ ORGANISMS =============== */
-@import url('organisms/header.css');
-@import url('organisms/menu.css');
-@import url('organisms/main.css');
+@import url("organisms/header.css");
+@import url("organisms/menu.css");
+@import url("organisms/main.css");
 
 /* ================ PAGES================ */
-@import url('pages/login.css');
-@import url('pages/calendar.css');
+@import url("pages/login.css");
+@import url("pages/calendar.css");

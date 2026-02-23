@@ -8,12 +8,14 @@ class User < ActiveRecord::Base
     has_secure_password
     has_many :user_calendars
     has_many :calendars, through: :user_calendars
+    has_many :chats
 end
 
 class Calendar < ActiveRecord::Base
     has_many :user_calendars
     has_many :users, through: :user_calendars
     has_many :tasks
+    has_many :chats
 end
 
 class UserCalendar < ActiveRecord::Base

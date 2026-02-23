@@ -142,8 +142,10 @@
             </div>
             <div class="chat-form">
                 <form action="/calendar/<%= @calendar.id %>/chat" method="POST">
-                    <input class="chat-input" type="text" name="message" placeholder="メッセージを入力" required>
-                    <button class="chat-submit" type="submit">送信</button>
+                    <div>
+                        <input class="chat-input" type="text" name="message" placeholder="メッセージを入力" required>
+                        <button class="chat-submit" type="submit">送信</button>
+                    </div>
                 </form>
             </div>
         </div>
